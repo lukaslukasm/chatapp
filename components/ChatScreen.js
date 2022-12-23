@@ -212,9 +212,12 @@ flex
 items-center
 p-3
 fixed
+sm:sticky
 bottom-0
 bg-white
 z-[100]
+w-full
+sm:w-auto
 `;
 
 const ActivityInfo = tw.p`
