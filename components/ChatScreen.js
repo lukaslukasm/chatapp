@@ -198,7 +198,7 @@ const InputContainer = tw.form`
 flex
 items-center
 p-3
-sticky
+fixed
 bottom-0
 bg-white
 z-[100]
