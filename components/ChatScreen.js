@@ -64,6 +64,7 @@ function ChatScreen({ chat, messages }) {
     picker.addEventListener('focusOut', event => {
       setShowEmojiKeyboard(false)
     })
+    scrollToBottom()
   }, [])
 
 
@@ -226,7 +227,9 @@ mt-1
 `;
 
 const MessageContainer = tw.div`
-p-7
+pt-40
+px-7
+sm:p-7
 bg-stone-300
 min-h-[90vh]
 flex
@@ -234,13 +237,15 @@ flex-col
 `;
 
 const Header = tw.div`
-sticky
+sm:sticky
+w-full
+sm:w-auto
+fixed
+top-0
 bg-white
 z-[100]
-top-0
 flex
 p-3.5
-sm:pl-0
 items-center
 border-b
 border-gray-100
@@ -257,7 +262,7 @@ const HeaderIcons = tw.div`flex gap-2`;
 const IconButton = tw.div``;
 
 const EndOfMessage = tw.div`
-h-5
+h-32
 `;
 
 const Time = tw.span`
