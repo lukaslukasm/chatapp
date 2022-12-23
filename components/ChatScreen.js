@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import tw from 'tailwind-styled-components'
 import { auth, db } from '../firebase';
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import Message from './Message';
@@ -174,7 +172,7 @@ function ChatScreen({ chat, messages }) {
       <InputContainer>
         <InsertEmoticonIcon onClick={() => setShowEmojiKeyboard(prev => !prev)} />
         <Input value={input} onChange={e => setInput(e.target.value)} />
-        <button hidden disabled={!input} type='submit' onClick={sendMessage}> Send Message</button>
+        <SubmitButton disabled={!input} type='submit' onClick={sendMessage} />
       </InputContainer>
     </Container >
   )
@@ -183,6 +181,13 @@ function ChatScreen({ chat, messages }) {
 export default ChatScreen
 
 const Container = tw.div``;
+
+const SubmitButton = tw.button`
+  absolute
+  -z-50
+  left-16
+`;
+
 
 const Input = tw.input`
 flex-1
