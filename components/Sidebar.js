@@ -8,12 +8,12 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Chat from './Chat'
 import Search from './Search'
+import { useState } from 'react'
 
 function Sidebar() {
   const [user] = useAuthState(auth)
   const userChatRef = db.collection('chats').where('users', 'array-contains', user.email)
   const [chatsSnapshot] = useCollection(userChatRef)
-
 
   const createChat = () => {
     const input = prompt('Please enter an email address for the user you with to chat with')
@@ -41,7 +41,6 @@ function Sidebar() {
     <Container>
       <Header>
         <UserAvatar src={user.photoURL} onClick={() => auth.signOut()} />
-
       </Header>
       <Search />
       <SidebarButton onClick={createChat}>Start a new chat</SidebarButton>
@@ -56,13 +55,15 @@ function Sidebar() {
 export default Sidebar
 
 const Container = tw.div`
-flex-[0.45]
-border-r
-border-gray-100
-h-screen
-min-w-[300px]
-max-w-[350px]
-overflow-y-scroll
+  bg-white
+  left-0
+  border-r
+  border-gray-100
+  h-screen
+  w-screen
+  sm:min-w-[300px]
+  sm:max-w-[350px]
+  overflow-y-scroll
 `;
 
 const Header = tw.div`
@@ -83,10 +84,6 @@ const Header = tw.div`
 const UserAvatar = tw(Avatar)`
 cursor-pointer
 hover:opacity-80
-`;
-
-const IconsContainer = tw.div`
-
 `;
 
 const SidebarButton = tw(Button)`

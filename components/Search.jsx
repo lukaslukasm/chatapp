@@ -12,14 +12,6 @@ const Search = () => {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    async function more() {
-      if (searchedWord) {
-        let ref = await db.collection('chats').where('users', 'array_contains', user.email).get()
-
-
-        console.log(ref.data())
-      }
-    }
 
   }, [searchedWord, user])
 
@@ -29,7 +21,7 @@ const Search = () => {
       <SearchWrap>
         <SearchElms>
           <SearchIcon />
-          <SearchInput placeholder="Search in chats" onChange={e => setSarchedWord(e.target.value)} />
+          <SearchInput placeholder="Search not work but look cool" onChange={e => setSarchedWord(e.target.value)} />
         </SearchElms>
       </SearchWrap>
 

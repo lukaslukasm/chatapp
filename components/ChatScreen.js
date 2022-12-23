@@ -13,6 +13,8 @@ import TimeAgo from 'timeago-react'
 import { format } from 'date-fns'
 import { useRef } from 'react';
 import { createPicker } from 'picmo';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+
 
 
 function ChatScreen({ chat, messages }) {
@@ -140,6 +142,10 @@ function ChatScreen({ chat, messages }) {
       </div>
 
       <Header>
+        <button className='sm:hidden mx-3' onClick={() => router.push("/")} >
+          <ArrowBackIosRoundedIcon />
+        </button>
+
         {recipient ? (
           <Avatar src={recipient?.photoURL} />
         ) : (
@@ -180,7 +186,9 @@ function ChatScreen({ chat, messages }) {
 
 export default ChatScreen
 
-const Container = tw.div``;
+const Container = tw.div`
+
+`;
 
 const SubmitButton = tw.button`
   absolute
@@ -229,12 +237,14 @@ z-[100]
 top-0
 flex
 p-3.5
+sm:pl-0
 items-center
 border-b
 border-gray-100
 `;
 
 const HeaderInformation = tw.div`
+
 flex-1
 ml-4
 `;

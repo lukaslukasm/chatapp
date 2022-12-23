@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import getRecipientEmail from "../../utils/getRecipientEmail";
+import { useState } from "react";
 
 
 function Chat({ chat, messages }) {
@@ -16,7 +17,9 @@ function Chat({ chat, messages }) {
       <Head>
         <title>Chat with {getRecipientEmail(chat.users, user)}</title>
       </Head>
-      <Sidebar />
+
+      {document.body.clientWidth > 640 && <Sidebar />}
+
       <ChatContainer>
         <ChatScreen chat={chat} messages={messages} />
       </ChatContainer>
@@ -61,16 +64,32 @@ export async function getServerSideProps(context) {
 }
 
 const Container = tw.div`
-flex`;
-
-const ChatContainer = styled.div`
-flex: 1;
-overflow: scroll;
-height: 100vh;
-
-::-webkit-scrollbar{
-  display:none;
-}
--ms-overflow-style:none;
-scrollbar-width: none;
+  overflow-x-hidden
+  h-screen
+  w-screen
+  flex
 `;
+
+const ChatContain = styled.div`
+  flex: 1;
+  overflow: scroll;
+  height: 100vh;
+
+  ::-webkit-scrollbar{
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
+
+const ChatContainer = tw(ChatContain)`
+
+  sm:relative 
+  w-screen 
+  sm:w-auto
+`
+
+const ResponsiveSidebar = tw(Sidebar)`
+sm:block
+hidden
+`
