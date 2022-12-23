@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import tw from 'tailwind-styled-components'
 import { auth, db } from '../firebase';
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import Message from './Message';
@@ -15,6 +13,8 @@ import TimeAgo from 'timeago-react'
 import { format } from 'date-fns'
 import { useRef } from 'react';
 import { createPicker } from 'picmo';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+
 
 
 function ChatScreen({ chat, messages }) {
@@ -142,6 +142,10 @@ function ChatScreen({ chat, messages }) {
       </div>
 
       <Header>
+        <button className='sm:hidden mx-3' onClick={() => router.push("/")} >
+          <ArrowBackIosRoundedIcon />
+        </button>
+
         {recipient ? (
           <Avatar src={recipient?.photoURL} />
         ) : (
@@ -174,7 +178,7 @@ function ChatScreen({ chat, messages }) {
       <InputContainer>
         <InsertEmoticonIcon onClick={() => setShowEmojiKeyboard(prev => !prev)} />
         <Input value={input} onChange={e => setInput(e.target.value)} />
-        <button hidden disabled={!input} type='submit' onClick={sendMessage}> Send Message</button>
+        <SubmitButton disabled={!input} type='submit' onClick={sendMessage} />
       </InputContainer>
     </Container >
   )
@@ -182,7 +186,16 @@ function ChatScreen({ chat, messages }) {
 
 export default ChatScreen
 
-const Container = tw.div``;
+const Container = tw.div`
+
+`;
+
+const SubmitButton = tw.button`
+  absolute
+  -z-50
+  left-16
+`;
+
 
 const Input = tw.input`
 flex-1
@@ -224,12 +237,14 @@ z-[100]
 top-0
 flex
 p-3.5
+sm:pl-0
 items-center
 border-b
 border-gray-100
 `;
 
 const HeaderInformation = tw.div`
+
 flex-1
 ml-4
 `;
