@@ -3,11 +3,11 @@ import ChatIcon from '@material-ui/icons/Chat'
 import * as EmailValidator from 'email-validator'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import tw from 'tailwind-styled-components'
-import SearchIcon from '@material-ui/icons/Search'
 import { auth, db } from '../firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Chat from './Chat'
+import Search from './Search'
 
 function Sidebar() {
   const [user] = useAuthState(auth)
@@ -41,19 +41,9 @@ function Sidebar() {
     <Container>
       <Header>
         <UserAvatar src={user.photoURL} onClick={() => auth.signOut()} />
-        <IconsContainer>
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </IconsContainer>
+
       </Header>
-      <Search>
-        <SearchIcon />
-        <SearchInput placeholder="Search in chats" />
-      </Search>
+      <Search />
       <SidebarButton onClick={createChat}>Start a new chat</SidebarButton>
       {/* List of Chats */}
       {chatsSnapshot?.docs.map((chat) => (
@@ -99,19 +89,6 @@ const IconsContainer = tw.div`
 
 `;
 
-const Search = tw.div`
-flex
-items-center
-p-5
-
-`
-
-const SearchInput = tw.input`
-  outline-0
-  flex-1
-`
-
 const SidebarButton = tw(Button)`
   w-full
-
 `

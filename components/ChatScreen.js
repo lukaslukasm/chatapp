@@ -14,10 +14,13 @@ import getRecipientEmail from '../utils/getRecipientEmail'
 import TimeAgo from 'timeago-react'
 import { format } from 'date-fns'
 import { useRef } from 'react';
+import { createPicker } from 'picmo';
 
 
 function ChatScreen({ chat, messages }) {
 
+
+  const [showEmojiKeyboard, setShowEmojiKeyboard] = useState(false)
   const [input, setInput] = useState('')
   const [user] = useAuthState(auth)
   const bottomElmRef = useRef(null)
@@ -45,6 +48,24 @@ function ChatScreen({ chat, messages }) {
       time = setTimeout(() => { setMessageShowsTime(null) }, 2000)
     return () => { clearTimeout(time) }
   }, [messageShowsTime])
+
+  useEffect(() => {
+    const rootElement = document.querySelector('.emojiButton');
+
+    // Create the picker
+    const picker = createPicker({ rootElement });
+
+    // The picker emits an event when an emoji is selected. Do with it as you will!
+    picker.addEventListener('emoji:select', event => {
+      setShowEmojiKeyboard(false)
+      setInput(prev => `${prev}${event.emoji}`)
+    });
+
+    picker.addEventListener('focusOut', event => {
+      setShowEmojiKeyboard(false)
+    })
+  }, [])
+
 
   const scrollToBottom = () => {
     bottomElmRef.current.scrollIntoView({
@@ -115,6 +136,11 @@ function ChatScreen({ chat, messages }) {
 
   return (
     <Container>
+
+      <div className={`fixed z-50 bottom-16 ${showEmojiKeyboard ? "block" : "hidden"}`}>
+        <div className="emojiButton" />
+      </div>
+
       <Header>
         {recipient ? (
           <Avatar src={recipient?.photoURL} />
@@ -139,22 +165,14 @@ function ChatScreen({ chat, messages }) {
 
 
         </HeaderInformation>
-        <HeaderIcons>
-          <IconButton>
-            <AttachFileIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </HeaderIcons>
+
       </Header>
       <MessageContainer>
         {showMessages()}
         <EndOfMessage ref={bottomElmRef} />
       </MessageContainer>
-
       <InputContainer>
-        <InsertEmoticonIcon />
+        <InsertEmoticonIcon onClick={() => setShowEmojiKeyboard(prev => !prev)} />
         <Input value={input} onChange={e => setInput(e.target.value)} />
         <button hidden disabled={!input} type='submit' onClick={sendMessage}> Send Message</button>
       </InputContainer>
